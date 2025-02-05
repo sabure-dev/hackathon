@@ -11,7 +11,7 @@ router = APIRouter()
 def get_leaderboard(
     db: Session = Depends(get_db)
 ):
-    return db.query(Leaderboard).all()
+    return db.query(Leaderboard).order_by(Leaderboard.position.asc()).all()
 
 @router.post("/", response_model=LeaderboardInDB)
 def create_leaderboard(
