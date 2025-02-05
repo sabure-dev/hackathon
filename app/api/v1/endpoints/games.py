@@ -7,7 +7,7 @@ from ....schemas.game import GameCreate, GameUpdate, GameInDB
 from ....schemas.player import GenderType
 from ....models.game import Game
 from ....models.team import Team
-
+from ....models.player import Player
 router = APIRouter()
 
 @router.get("/", response_model=List[GameInDB])
@@ -94,6 +94,11 @@ def create_game(
         )
     
     db_game = Game(**game.model_dump())
+
+    players = db.query(Player).filter(Player.gender == game.gender)
+    for player in players:
+        player.games_played += 1
+
     db.add(db_game)
     db.commit()
     db.refresh(db_game)
