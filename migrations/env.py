@@ -10,6 +10,7 @@ from app.models.game import Game
 from app.models.news import News, Tag
 from app.models.player import Player
 from app.models.team import Team
+from app.models.leaderboard import Leaderboard
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
