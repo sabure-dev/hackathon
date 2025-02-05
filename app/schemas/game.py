@@ -5,7 +5,7 @@ from .player import GenderType
 
 class GameBase(BaseModel):
     gender: GenderType
-    opponent: str
+    team_name: str
     date_time: datetime
     location: str
     is_home_game: bool
@@ -17,7 +17,7 @@ class GameCreate(GameBase):
 
 class GameUpdate(GameBase):
     gender: Optional[GenderType] = None
-    opponent: Optional[str] = None
+    team_name: Optional[str] = None
     date_time: Optional[datetime] = None
     location: Optional[str] = None
     is_home_game: Optional[bool] = None
@@ -28,4 +28,4 @@ class GameInDB(GameBase):
     id: int
 
     class Config:
-        from_attributes = True 
+        from_attributes = True

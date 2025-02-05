@@ -7,7 +7,7 @@ class Team(Base):
     __tablename__ = "teams"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False, unique=True, index=True)
     gender = Column(Enum(GenderType), nullable=False)
     logo_url = Column(String)
     
@@ -21,4 +21,8 @@ class Team(Base):
     
     # Вычисляемые поля
     win_percentage = Column(Float, default=0.0)
-    points_difference = Column(Integer, default=0) 
+    points_difference = Column(Integer, default=0)
+    
+    # Добавляем связь с играми
+    games = relationship("Game", back_populates="team")
+    

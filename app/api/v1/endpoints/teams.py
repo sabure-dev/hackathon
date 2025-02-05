@@ -86,19 +86,6 @@ def delete_team(
     db.commit()
     return {"message": "Команда успешно удалена"}
 
-@router.get("/{team_id}/stats", response_model=TeamInDB)
-def get_team_stats(
-    team_id: int,
-    db: Session = Depends(get_db)
-):
-    """
-    Получить статистику команды
-    """
-    team = db.query(Team).filter(Team.id == team_id).first()
-    if team is None:
-        raise HTTPException(status_code=404, detail="Команда не найдена")
-    return team
-
 @router.put("/{team_id}/position", response_model=TeamInDB)
 def update_team_position(
     team_id: int,
@@ -116,19 +103,3 @@ def update_team_position(
     db.commit()
     db.refresh(db_team)
     return db_team
-
-@router.get("/standings/{gender}", response_model=List[TeamInDB])
-def get_standings(
-    gender: str,
-    db: Session = Depends(get_db)
-):
-    """
-    Получить турнирную таблицу для указанного пола
-    """
-    teams = (
-        db.query(Team)
-        .filter(Team.gender == gender)
-        .order_by(Team.current_position)
-        .all()
-    )
-    return teams 

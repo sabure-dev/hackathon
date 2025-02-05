@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional
+from typing import Optional, List
 from .player import GenderType
 
 class TeamBase(BaseModel):
@@ -14,6 +14,12 @@ class TeamUpdate(TeamBase):
     name: Optional[str] = None
     gender: Optional[GenderType] = None
     logo_url: Optional[str] = None
+    games_played: Optional[int] = None
+    wins: Optional[int] = None
+    losses: Optional[int] = None
+    points_scored: Optional[int] = None
+    points_conceded: Optional[int] = None
+    current_position: Optional[int] = None
 
 class TeamInDB(TeamBase):
     id: int
@@ -27,4 +33,4 @@ class TeamInDB(TeamBase):
     points_difference: int = 0
 
     class Config:
-        from_attributes = True 
+        from_attributes = True

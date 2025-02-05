@@ -13,8 +13,8 @@ class PlayerBase(BaseModel):
     gender: GenderType
     number: int
     position: str
-    height: float
-    weight: float
+    height: float  # в сантиметрах
+    weight: float  # в килограммах
     birth_date: date
     biography: Optional[str] = None
     image_url: Optional[str] = None
