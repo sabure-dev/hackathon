@@ -20,6 +20,7 @@ def get_news(
         query = query.join(NewsModel.tags).filter(TagModel.name.in_(tags))
         query = query.group_by(NewsModel.id).having(func.count(NewsModel.id) == len(tags))
     
+    query = query.order_by(NewsModel.id.desc())
     news = query.offset(skip).limit(limit).all()
     return news
 
