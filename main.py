@@ -489,4 +489,4 @@ header = ft.AppBar(
     )
 
 # ft.app(target=main, view=ft.WEB_BROWSER, host='192.168.51.208', port=80)
-ft.app(target=main, view=ft.WEB_BROWSER)
+ft.app(target=main, view=ft.WEB_BROWSER, port=80)
