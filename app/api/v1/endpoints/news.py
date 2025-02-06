@@ -14,7 +14,11 @@ def get_news(
     tags: List[str] = Query(default=[]),
     db: Session = Depends(get_db)
 ):
-    news = db.query(NewsModel).filter(NewsModel.tags.in_(tags)).offset(skip).limit(limit).all()
+    query = db.query(NewsModel)
+    if tags:
+        query = query.join(NewsModel.tags).filter(TagModel.name.in_(tags))
+    
+    news = query.offset(skip).limit(limit).all()
     return news
 
 @router.post("/", response_model=News)
