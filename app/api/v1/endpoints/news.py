@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List
+from sqlalchemy import func
 from ....core.database import get_db
 from ....schemas.news import NewsCreate, NewsUpdate, News, TagCreate, Tag
 from ....models.news import News as NewsModel, Tag as TagModel
@@ -17,6 +18,7 @@ def get_news(
     query = db.query(NewsModel)
     if tags:
         query = query.join(NewsModel.tags).filter(TagModel.name.in_(tags))
+        query = query.group_by(NewsModel.id).having(func.count(NewsModel.id) == len(tags))
     
     news = query.offset(skip).limit(limit).all()
     return news
