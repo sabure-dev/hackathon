@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List
 from ....core.database import get_db
@@ -11,9 +11,10 @@ router = APIRouter()
 def get_news(
     skip: int = 0,
     limit: int = 100,
+    tags: List[str] = Query(default=[]),
     db: Session = Depends(get_db)
 ):
-    news = db.query(NewsModel).offset(skip).limit(limit).all()
+    news = db.query(NewsModel).filter(NewsModel.tags.in_(tags)).offset(skip).limit(limit).all()
     return news
 
 @router.post("/", response_model=News)
