@@ -4,14 +4,15 @@ from typing import List, Optional
 from ....core.database import get_db
 from ....schemas.leaderboard import LeaderboardCreate, LeaderboardUpdate, LeaderboardInDB, LeaderboardBase
 from ....models.leaderboard import Leaderboard
-
+from ....schemas.player import GenderType
 router = APIRouter()
 
 @router.get("/", response_model=List[LeaderboardInDB])
 def get_leaderboard(
+    gender: GenderType = Query(default=GenderType.MALE),
     db: Session = Depends(get_db)
 ):
-    return db.query(Leaderboard).order_by(Leaderboard.position.asc()).all()
+    return db.query(Leaderboard).filter(Leaderboard.gender == gender).order_by(Leaderboard.position.asc()).all()
 
 @router.post("/", response_model=LeaderboardInDB)
 def create_leaderboard(
